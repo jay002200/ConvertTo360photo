@@ -1,6 +1,6 @@
 import pyexiv2 as pe
 import os
-print(pe.__file__)
+
 
 
 def read_directory():
@@ -22,24 +22,31 @@ def print_img():
         print("Scanned image:{0}".format(text))
     else:
         print("Scanned image:NO FOUND!")
-
-print_img()
-file = read_directory()
-if file:
-    print(file)
-try:
-    for name in file:
-        img = pe.Image(name,encoding='utf-8')
-        pe.registerNs('http://ns.google.com/photos/1.0/panorama/','Gpano')
-        dict = {'Xmp.GPano.UsePanoramaViewer':'True',
-                'Xmp.Gpano.ProjectionType':'equirectangular',
-                'Xmp.Gpano.PoseHeadingDegrees':'180.0'
-                }
-        img.modify_xmp(dict)
-        print("Sucess!") 
-except RuntimeError:
-    print("Convert Error.Check file name.Cant use Chinese.")
-
+        
+        
+print("Do you want to convert?(y/n)")
+ans = input()
+if(ans == 'y' or ans == 'Y'):
+    print_img()
+    file = read_directory()
+    if file:
+        print(file)
+    try:
+        for name in file:
+            img = pe.Image(name,encoding='utf-8')
+            pe.registerNs('http://ns.google.com/photos/1.0/panorama/','Gpano')
+            dict = {'Xmp.GPano.UsePanoramaViewer':'True',
+                    'Xmp.Gpano.ProjectionType':'equirectangular',
+                    'Xmp.Gpano.PoseHeadingDegrees':'180.0'
+                    }
+            img.modify_xmp(dict)
+            print("Sucess!") 
+    except RuntimeError:
+        print("Convert Error.Check file name.Cant use Chinese.")
+    os.system("pause")
+else:
+    os.system("exit")
+    
        
 
 
@@ -47,4 +54,4 @@ except RuntimeError:
 
 
 
-os.system("pause")
+
